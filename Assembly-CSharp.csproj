@@ -64,22 +64,22 @@
     <Analyzer Include="D:\Program Files\Unity\2022.3.62f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\_Scripts\GameManager.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerState.cs" />
-    <Compile Include="Assets\_Scripts\Player\IInteractable.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerAnimator.cs" />
+    <Compile Include="Assets\_Scripts\Interactables\CollectBox.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\SoundEffectConfig.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerInteraction.cs" />
-    <Compile Include="Assets\_Scripts\Player\LivingObjectBase.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\SoundEffectData.cs" />
-    <Compile Include="Assets\_Scripts\Player\CollectBox.cs" />
     <Compile Include="Assets\_Scripts\UI\StruggleSlider.cs" />
-    <Compile Include="Assets\_Scripts\UIManager.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\AudioManager.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\MusicConfig.cs" />
+    <Compile Include="Assets\_Scripts\Managers\UIManager.cs" />
+    <Compile Include="Assets\_Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\MusicClipData.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerController.cs" />
+    <Compile Include="Assets\_Scripts\Interactables\LivingObjectBase.cs" />
     <Compile Include="Assets\_Scripts\UI\TestPlayerStates.cs" />
+    <Compile Include="Assets\_Scripts\Interactables\IInteractable.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
