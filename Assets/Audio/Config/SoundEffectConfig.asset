@@ -12,4 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53676d04f29cfb44c924958e97d71068, type: 3}
   m_Name: SoundEffectConfig
   m_EditorClassIdentifier: 
-  SoundClips: []
+  SoundClips:
+  - SoundName: "\u73A9\u5BB6\u811A\u6B65\u58F0_loop"
+    SoundClip: {fileID: 8300000, guid: 9fa67e9048ddd8a419611a941643eea5, type: 3}
+    Volume: 0.75
+    PitchMin: 1
+    PitchMax: 1.8
+  - SoundName: "\u6293\u53D6\u52A8\u4F5C"
+    SoundClip: {fileID: 8300000, guid: 5abff405cb83eff4c81afc029596a4f5, type: 3}
+    Volume: 0.75
+    PitchMin: 1
+    PitchMax: 1.8
+  - SoundName: "\u6293\u53D6\u5931\u8D25 "
+    SoundClip: {fileID: 8300000, guid: 2f3025b4b77de224dbe36df9f1fd5a09, type: 3}
+    Volume: 0.75
+    PitchMin: 1
+    PitchMax: 1.8
+  - SoundName: "\u6293\u53D6\u6210\u529F "
+    SoundClip: {fileID: 8300000, guid: 5610c506a7986c544bd31a476fe35a39, type: 3}
+    Volume: 0.75
+    PitchMin: 1
+    PitchMax: 1.8
+  - SoundName: "\u7126\u6025\u6293\u53D6\u8FC7\u7A0B_loop "
+    SoundClip: {fileID: 8300000, guid: 00a7d1b45e35a2a4691581afca838727, type: 3}
+    Volume: 0.75
+    PitchMin: 1
+    PitchMax: 1.8

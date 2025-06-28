@@ -69,6 +69,7 @@
     <Compile Include="Assets\_Scripts\Interactables\CollectBox.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\SoundEffectConfig.cs" />
     <Compile Include="Assets\_Scripts\Utility\SpriteDepthSorter.cs" />
+    <Compile Include="Assets\_Scripts\Player\PlayerAudio.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerInteraction.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\SoundEffectData.cs" />
     <Compile Include="Assets\_Scripts\UI\StruggleSlider.cs" />

@@ -1,6 +1,7 @@
 using QFramework;
 using UnityEngine;
 
+
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D mRigidbody;
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
         Vector2 moveInput = new Vector2(horizontalInput, verticalInput);
         Vector2 moveDirection = new Vector2(horizontalInput, verticalInput).normalized;
         mRigidbody.velocity = moveDirection * moveSpeed;
+        
 
         // 更新 LastMoveDirection
         if (moveDirection.magnitude > 0.1f)
