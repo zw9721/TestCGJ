@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
         if (mRigidbody == null || mPlayerState == null) return;
 
         // 在 Struggling 状态下禁止移动
-        if (mPlayerState.CurrentStateId == EPlayerState.Struggling)
+        if (mPlayerState.CurrentStateId == EPlayerState.Struggling || mPlayerState.CurrentStateId == EPlayerState.Stunned || mPlayerState.CurrentStateId == EPlayerState.KnockedBack)
         {
             mRigidbody.velocity = Vector2.zero;
             return; // 禁止移动，直接返回
@@ -68,5 +68,64 @@ public class PlayerController : MonoBehaviour
                 mPlayerState.ChangeState(EPlayerState.Carrying_Idle);
             }
         }
+    }
+
+    /// <summary>
+    /// 玩家被击退
+    /// </summary>
+    /// <param name="knockbackDirection">击退方向</param>
+    /// <param name="knockbackForce">击退力</param>
+    /// <param name="stunDuration">眩晕时长</param>
+    public void KnockBack(Vector2 knockbackDirection, float knockbackForce, float stunDuration)
+    {
+        if (mRigidbody == null || mPlayerState == null) return;
+
+        mPlayerState.ChangeState(EPlayerState.KnockedBack);
+        mRigidbody.AddForce(knockbackDirection.normalized * knockbackForce, ForceMode2D.Impulse);
+
+        // 击退后进入眩晕状态，并在眩晕结束后恢复
+        ActionKit.Delay(stunDuration, () =>
+        {
+            if (mPlayerState.CurrentStateId == EPlayerState.KnockedBack || mPlayerState.CurrentStateId == EPlayerState.Stunned)
+            {
+                // 击退或眩晕结束后，根据速度判断是 Idle 还是 Moving
+                if (mRigidbody.velocity.magnitude > 0.1f)
+                {
+                    mPlayerState.ChangeState(EPlayerState.Moving);
+                }
+                else
+                {
+                    mPlayerState.ChangeState(EPlayerState.Idle);
+                }
+            }
+        }).Start(this); // 使用 Start(this) 将 Action 绑定到 MonoBehaviour 的生命周期
+    }
+
+    /// <summary>
+    /// 玩家进入眩晕状态
+    /// </summary>
+    /// <param name="stunDuration">眩晕时长</param>
+    public void Stun(float stunDuration)
+    {
+        if (mPlayerState == null) return;
+
+        mPlayerState.ChangeState(EPlayerState.Stunned);
+
+        // 眩晕结束后恢复
+        ActionKit.Delay(stunDuration, () =>
+        {
+            if (mPlayerState.CurrentStateId == EPlayerState.Stunned)
+            {
+                // 眩晕结束后，根据速度判断是 Idle 还是 Moving
+                if (mRigidbody.velocity.magnitude > 0.1f)
+                {
+                    mPlayerState.ChangeState(EPlayerState.Moving);
+                }
+                else
+                {
+                    mPlayerState.ChangeState(EPlayerState.Idle);
+                }
+            }
+        }).Start(this); // 使用 Start(this) 将 Action 绑定到 MonoBehaviour 的生命周期
     }
 }

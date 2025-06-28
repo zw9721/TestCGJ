@@ -177,7 +177,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             // 挣扎失败
             Debug.Log("挣扎失败！");
-            mPlayerState.ChangeState(EPlayerState.Idle); // 挣扎失败切换到 Stunned 状态
+            mPlayerState.ChangeState(EPlayerState.Idle); // 挣扎失败直接切换到 Idle 状态
             mIsCarrying = false;
             if (mCarriedObject != null)
             {
