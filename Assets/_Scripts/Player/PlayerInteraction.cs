@@ -1,6 +1,7 @@
 using QFramework;
 using UnityEngine;
 using Game; // 引入 Game 命名空间
+using DG.Tweening; // 引入 DOTween 命名空间
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class PlayerInteraction : MonoBehaviour
     private IInteractable mCurrentInteractable;
     private bool mIsCarrying = false;
     private LivingObjectBase mCarriedObject;
+    private Vector3 mOriginalCarriedObjectPosition; // 记录被抓取物品的原始位置
+    private Transform mOriginalCarriedObjectParent; // 记录被抓取物品的原始父级
 
     // 挣扎进度条相关变量
     private float mStruggleProgress = 0f; // 当前挣扎进度 (0 到 100)
@@ -22,11 +25,18 @@ public class PlayerInteraction : MonoBehaviour
     public LayerMask interactableLayer; // 可交互对象的层
 
     private Rigidbody2D mRigidbody; // 新增 Rigidbody2D 引用
+    private PlayerController mPlayerController; // 新增 PlayerController 引用
+
+    public float throwForce = 5f; // 抛出力量 (如果需要，可以保留作为抛出距离的乘数)
+    public float throwDistance = 1.0f; // 抛出距离
+    public float throwDuration = 0.2f; // 抛出动画时长
 
     private void Awake()
     {
         mRigidbody = GetComponent<Rigidbody2D>(); // 获取 Rigidbody2D 引用
         mPlayerState = PlayerState.Instance;
+        mPlayerController = GetComponent<PlayerController>(); // 获取 PlayerController 引用
+
         if (carryPoint == null)
         {
             Debug.LogError("PlayerInteraction: CarryPoint is not assigned!");
@@ -34,6 +44,10 @@ public class PlayerInteraction : MonoBehaviour
         if (mRigidbody == null)
         {
             Debug.LogError("PlayerInteraction requires a Rigidbody2D component on the same GameObject.");
+        }
+        if (mPlayerController == null)
+        {
+            Debug.LogError("PlayerInteraction requires a PlayerController component on the same GameObject.");
         }
     }
 
@@ -124,6 +138,13 @@ public class PlayerInteraction : MonoBehaviour
             mPlayerState.ChangeState(EPlayerState.Struggling);
             mStruggleProgress = 0f; // 初始化挣扎进度
             Debug.Log($"开始与 {objectToStruggleWith.name} 挣扎！当前难度: {objectToStruggleWith.struggleDifficulty}");
+            if (mCarriedObject != null)
+            {
+                mOriginalCarriedObjectPosition = mCarriedObject.transform.position; // 记录原始位置
+                mOriginalCarriedObjectParent = mCarriedObject.transform.parent; // 记录原始父级
+                mCarriedObject.transform.SetParent(carryPoint); // 将物品设置为搬运点的子级
+                mCarriedObject.transform.localPosition = Vector3.zero; // 重置本地位置
+            }
         }
     }
 
@@ -148,29 +169,21 @@ public class PlayerInteraction : MonoBehaviour
             // 挣扎成功
             Debug.Log("挣扎成功！");
             mIsCarrying = true;
-            if (mCarriedObject != null)
-            {
-                mCarriedObject.transform.SetParent(carryPoint); // 将物品设置为搬运点的子级
-                mCarriedObject.transform.localPosition = Vector3.zero; // 重置本地位置
-            }
 
-            if (mRigidbody.velocity.magnitude > 0.1f)
-            {
-                mPlayerState.ChangeState(EPlayerState.Carrying_Moving);
-            }
-            else
-            {
-                mPlayerState.ChangeState(EPlayerState.Carrying_Idle);
-            }
+            mPlayerState.ChangeState(EPlayerState.Carrying_Idle);
             mStruggleProgress = 0f; // 重置进度
-            mCarriedObject = null; // 清除搬运对象，因为现在已经成功搬运
         }
         else if (mStruggleProgress <= struggleFailThreshold)
         {
             // 挣扎失败
             Debug.Log("挣扎失败！");
-            mPlayerState.ChangeState(EPlayerState.Stunned);
+            mPlayerState.ChangeState(EPlayerState.Idle); // 挣扎失败切换到 Stunned 状态
             mIsCarrying = false;
+            if (mCarriedObject != null)
+            {
+                mCarriedObject.transform.SetParent(mOriginalCarriedObjectParent); // 恢复原始父级
+                mCarriedObject.transform.position = mOriginalCarriedObjectPosition; // 恢复原始位置
+            }
             mCarriedObject = null;
             mStruggleProgress = 0f; // 重置进度
         }
@@ -178,22 +191,22 @@ public class PlayerInteraction : MonoBehaviour
 
     private void DropCarriedObject()
     {
+        print("放下物品"+ mCarriedObject?.name);
         if (mCarriedObject != null)
         {
-            mCarriedObject.transform.SetParent(null); // 解除父级关系
-            // 可以添加一个小的推力或放置动画
+            mCarriedObject.transform.SetParent(mOriginalCarriedObjectParent); // 解除父级关系
+
+            // 使用 DOTween 模拟前抛
+            if (mPlayerController != null)
+            {
+                Vector3 targetThrowPosition = mCarriedObject.transform.position + (Vector3)mPlayerController.LastMoveDirection * throwDistance;
+                mCarriedObject.transform.DOMove(targetThrowPosition, throwDuration).SetEase(Ease.OutQuad); // 可以调整 Ease 类型
+            }
+
             Debug.Log($"放下 {mCarriedObject.name}");
             mCarriedObject = null;
             mIsCarrying = false;
-
-            if (mRigidbody.velocity.magnitude > 0.1f)
-            {
-                mPlayerState.ChangeState(EPlayerState.Moving);
-            }
-            else
-            {
-                mPlayerState.ChangeState(EPlayerState.Idle);
-            }
+            mPlayerState.ChangeState(EPlayerState.Idle);
         }
     }
 
