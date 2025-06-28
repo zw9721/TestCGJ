@@ -29,6 +29,13 @@ public class GameManager : MonoSingleton<GameManager>
 
         // 订阅物品回收事件
         OnObjectRecovered += HandleObjectRecovered;
+
+        // 获取场景中所有 LivingObjectBase 并注册
+        LivingObjectBase[] livingObjects = FindObjectsOfType<LivingObjectBase>();
+        foreach (LivingObjectBase obj in livingObjects)
+        {
+            RegisterObject(obj);
+        }
     }
 
     private void Update()

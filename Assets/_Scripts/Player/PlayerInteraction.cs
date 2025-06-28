@@ -145,6 +145,7 @@ public class PlayerInteraction : MonoBehaviour
             Debug.Log($"开始与 {objectToStruggleWith.name} 挣扎！当前难度: {objectToStruggleWith.struggleDifficulty}");
             if (mCarriedObject != null)
             {
+                mCarriedObject.GetComponent<Collider2D>().enabled = false; // 禁用物体的碰撞体，防止与其他物体交互
                 mOriginalCarriedObjectPosition = mCarriedObject.transform.position; // 记录原始位置
                 mOriginalCarriedObjectParent = mCarriedObject.transform.parent; // 记录原始父级
                 mCarriedObject.transform.SetParent(carryPoint); // 将物品设置为搬运点的子级
@@ -193,6 +194,8 @@ public class PlayerInteraction : MonoBehaviour
             mIsCarrying = false;
             if (mCarriedObject != null)
             {
+                mCarriedObject.GetComponent<Collider2D>().enabled = true; // 恢复物体的碰撞体
+                // 恢复物体的原始位置和父级
                 mCarriedObject.transform.SetParent(mOriginalCarriedObjectParent); // 恢复原始父级
                 mCarriedObject.transform.position = mOriginalCarriedObjectPosition; // 恢复原始位置
             }
@@ -208,7 +211,7 @@ public class PlayerInteraction : MonoBehaviour
         if (mCarriedObject != null)
         {
             mCarriedObject.transform.SetParent(mOriginalCarriedObjectParent); // 解除父级关系
-
+            mCarriedObject.GetComponent<Collider2D>().enabled = true; // 恢复物体的碰撞体
             // 使用 DOTween 模拟前抛
             if (mPlayerController != null)
             {
