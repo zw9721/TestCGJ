@@ -94,6 +94,15 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
+    /// <summary>
+    /// 触发物品回收事件
+    /// </summary>
+    /// <param name="obj">被回收的物品</param>
+    public void TriggerObjectRecovered(LivingObjectBase obj)
+    {
+        OnObjectRecovered?.Invoke(obj);
+    }
+
     protected override void OnDestroy()
     {
         base.OnDestroy();

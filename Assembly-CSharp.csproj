@@ -72,6 +72,7 @@
     <Compile Include="Assets\_Scripts\Player\PlayerInteraction.cs" />
     <Compile Include="Assets\_Scripts\Player\LivingObjectBase.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\SoundEffectData.cs" />
+    <Compile Include="Assets\_Scripts\Player\CollectBox.cs" />
     <Compile Include="Assets\_Scripts\UI\StruggleSlider.cs" />
     <Compile Include="Assets\_Scripts\UIManager.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\AudioManager.cs" />
@@ -79,29 +80,6 @@
     <Compile Include="Assets\_Scripts\AudioSystem\MusicClipData.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\_Scripts\UI\TestPlayerStates.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMPro.cginc" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
-    <None Include="Assets\Prefab\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_SDF.shader" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
-    <None Include="Assets\Prefab\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\Prefab\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-    <None Include="Assets\Prefab\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-    <None Include="Assets\Prefab\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
