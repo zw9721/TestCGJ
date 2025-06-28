@@ -65,8 +65,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_Scripts\Player\PlayerState.cs" />
+    <Compile Include="Assets\_Scripts\Player\IInteractable.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerAnimator.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\SoundEffectConfig.cs" />
+    <Compile Include="Assets\_Scripts\Player\PlayerInteraction.cs" />
+    <Compile Include="Assets\_Scripts\Player\LivingObjectBase.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\SoundEffectData.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\AudioManager.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\MusicConfig.cs" />
