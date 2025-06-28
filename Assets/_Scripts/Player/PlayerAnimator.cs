@@ -51,12 +51,9 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Update()
     {
-        if (mAnimator == null || mRigidbody == null) return;
-        Vector2 currentMove = mRigidbody.velocity;
+        mMoveDirection = mPlayerController.LastMoveDirection;
 
-        mMoveDirection = currentMove.normalized;
-
-        if (currentMove.magnitude > 0.1)
+        if (mPlayerController.LastMoveDirection.magnitude > 0.1)
         {
             mLastMoveDirection = mPlayerController.LastMoveDirection;
         }

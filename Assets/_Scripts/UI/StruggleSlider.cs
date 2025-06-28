@@ -5,6 +5,7 @@ using QFramework; // 如果需要 MonoSingleton 或其他 QFramework 特性
 public class StruggleSlider : MonoBehaviour
 {
     public Slider slider; // 引用 Slider UI 组件
+    public GameObject SpaceBar; // 引用 Struggle Bar GameObject
 
     private void Awake()
     {
@@ -41,6 +42,7 @@ public class StruggleSlider : MonoBehaviour
         if (slider != null)
         {
             slider.gameObject.SetActive(isVisible);
+            SpaceBar.SetActive(isVisible);
         }
     }
 }
