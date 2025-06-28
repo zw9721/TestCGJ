@@ -1,4 +1,5 @@
 using QFramework;
+using System; // 引入 System 命名空间，用于 Action
 using UnityEngine;
 using Game; // 引入 Game 命名空间
 using DG.Tweening; // 引入 DOTween 命名空间
@@ -19,6 +20,9 @@ public class PlayerInteraction : MonoBehaviour
     public float struggleSuccessThreshold = 100f; // 挣扎成功的进度阈值
     public float struggleFailThreshold = 0f; // 挣扎失败的进度阈值
 
+
+    public static event Action<float> OnStruggleProgressUpdated; // 挣扎进度更新事件
+    public static event Action<bool> OnStruggleBarVisibilityChanged; // 挣扎条可见性改变事件
 
     public Transform carryPoint; // 玩家搬运物品的位置
     public float interactionRadius = 1.5f; // 交互检测半径
@@ -137,6 +141,7 @@ public class PlayerInteraction : MonoBehaviour
             mCarriedObject = objectToStruggleWith;
             mPlayerState.ChangeState(EPlayerState.Struggling);
             mStruggleProgress = 0f; // 初始化挣扎进度
+            OnStruggleBarVisibilityChanged?.Invoke(true); // 显示挣扎条
             Debug.Log($"开始与 {objectToStruggleWith.name} 挣扎！当前难度: {objectToStruggleWith.struggleDifficulty}");
             if (mCarriedObject != null)
             {
@@ -154,8 +159,14 @@ public class PlayerInteraction : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E)) // 每次点击交互键增加进度
         {
             mStruggleProgress += struggleIncreasePerClick;
-            Debug.Log($"挣扎进度: {mStruggleProgress}");
+            OnStruggleProgressUpdated?.Invoke(mStruggleProgress); // 更新挣扎进度
         }
+
+        // 进度条持续下降，下降速度受物体难度影响
+        mStruggleProgress -= struggleDecayRate * mCarriedObject.struggleDifficulty * Time.deltaTime;
+        OnStruggleProgressUpdated?.Invoke(mStruggleProgress); // 更新挣扎进度
+
+        
 
         // 进度条持续下降，下降速度受物体难度影响
         mStruggleProgress -= struggleDecayRate * mCarriedObject.struggleDifficulty * Time.deltaTime;
@@ -172,6 +183,7 @@ public class PlayerInteraction : MonoBehaviour
 
             mPlayerState.ChangeState(EPlayerState.Carrying_Idle);
             mStruggleProgress = 0f; // 重置进度
+            OnStruggleBarVisibilityChanged?.Invoke(false); // 隐藏挣扎条
         }
         else if (mStruggleProgress <= struggleFailThreshold)
         {
@@ -186,6 +198,7 @@ public class PlayerInteraction : MonoBehaviour
             }
             mCarriedObject = null;
             mStruggleProgress = 0f; // 重置进度
+            OnStruggleBarVisibilityChanged?.Invoke(false); // 隐藏挣扎条
         }
     }
 

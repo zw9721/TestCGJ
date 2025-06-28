@@ -24,10 +24,18 @@ public class PlayerController : MonoBehaviour
         if (mRigidbody == null || mPlayerState == null) return;
 
         // 在 Struggling 状态下禁止移动
-        if (mPlayerState.CurrentStateId == EPlayerState.Struggling || mPlayerState.CurrentStateId == EPlayerState.Stunned || mPlayerState.CurrentStateId == EPlayerState.KnockedBack)
+        // 在 Struggling 或 Stunned 状态下禁止移动
+        if (mPlayerState.CurrentStateId == EPlayerState.Struggling || mPlayerState.CurrentStateId == EPlayerState.Stunned)
         {
             mRigidbody.velocity = Vector2.zero;
             return; // 禁止移动，直接返回
+        }
+
+        // 在 KnockedBack 状态下，允许 AddForce 生效，不强制归零速度
+        if (mPlayerState.CurrentStateId == EPlayerState.KnockedBack)
+        {
+            // 此时不进行任何移动输入处理，只等待击退力自然衰减或状态切换
+            return;
         }
 
         // 获取输入
@@ -81,14 +89,16 @@ public class PlayerController : MonoBehaviour
         if (mRigidbody == null || mPlayerState == null) return;
 
         mPlayerState.ChangeState(EPlayerState.KnockedBack);
-        mRigidbody.AddForce(knockbackDirection.normalized * knockbackForce, ForceMode2D.Impulse);
+        // 施加水平击退力，并添加一个向上的分量来模拟击飞的跳跃感
+        Vector2 totalKnockbackForce = Vector2.right * knockbackDirection.normalized.x * knockbackForce * 0.9f + Vector2.up * knockbackDirection.normalized.y * (knockbackForce * 0.9f); // 向上力为水平力的一半
+        mRigidbody.AddForce(totalKnockbackForce, ForceMode2D.Impulse);
 
         // 击退后进入眩晕状态，并在眩晕结束后恢复
         ActionKit.Delay(stunDuration, () =>
         {
-            if (mPlayerState.CurrentStateId == EPlayerState.KnockedBack || mPlayerState.CurrentStateId == EPlayerState.Stunned)
+            if (mPlayerState.CurrentStateId == EPlayerState.KnockedBack) // 只在当前状态仍为KnockedBack时才进行状态恢复
             {
-                // 击退或眩晕结束后，根据速度判断是 Idle 还是 Moving
+                // 击退结束后，根据速度判断是 Idle 还是 Moving
                 if (mRigidbody.velocity.magnitude > 0.1f)
                 {
                     mPlayerState.ChangeState(EPlayerState.Moving);

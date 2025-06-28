@@ -8,17 +8,12 @@ public class UIManager : MonoSingleton<UIManager>
 {
     // UI 元素引用
     public TextMeshProUGUI timerText; // 计时器文本
-    public Slider struggleBar; // 挣扎进度条
     public GameObject victoryScreen; // 胜利屏幕
     public GameObject defeatScreen; // 失败屏幕
 
     public override void OnSingletonInit()
     {
         // 初始化 UI 元素状态
-        if (struggleBar != null)
-        {
-            struggleBar.gameObject.SetActive(false); // 默认隐藏挣扎条
-        }
         if (victoryScreen != null)
         {
             victoryScreen.SetActive(false);
@@ -103,29 +98,7 @@ public class UIManager : MonoSingleton<UIManager>
     /// <param name="newState"></param>
     private void HandlePlayerStateChanged(EPlayerState newState)
     {
-        if (struggleBar != null)
-        {
-            if (newState == EPlayerState.Struggling)
-            {
-                struggleBar.gameObject.SetActive(true);
-            }
-            else
-            {
-                struggleBar.gameObject.SetActive(false);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 更新挣扎条 UI
-    /// </summary>
-    /// <param name="progress">挣扎进度 (0-100)</param>
-    public void ShowStruggleBar(float progress)
-    {
-        if (struggleBar != null)
-        {
-            struggleBar.value = progress;
-        }
+        // UIManager 不再直接管理挣扎条的显示/隐藏，由 StruggleSlider 负责
     }
 
     protected override void OnDestroy()
