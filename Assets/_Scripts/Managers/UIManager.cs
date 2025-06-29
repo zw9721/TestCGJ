@@ -30,9 +30,6 @@ public class UIManager : MonoSingleton<UIManager>
         GameManager.OnGameVictory += HandleGameVictory;
         GameManager.OnGameDefeat += HandleGameDefeat;
         GameManager.OnObjectRecovered += HandleObjectRecovered;
-
-        // 订阅 PlayerState 事件
-        PlayerState.Instance.OnStateChanged += HandlePlayerStateChanged;
     }
 
     private void OnDisable()
@@ -41,12 +38,6 @@ public class UIManager : MonoSingleton<UIManager>
         GameManager.OnGameVictory -= HandleGameVictory;
         GameManager.OnGameDefeat -= HandleGameDefeat;
         GameManager.OnObjectRecovered -= HandleObjectRecovered;
-
-        // 取消订阅 PlayerState 事件
-        if (PlayerState.Instance != null) // 确保实例存在才取消订阅
-        {
-            PlayerState.Instance.OnStateChanged -= HandlePlayerStateChanged;
-        }
     }
 
     private void Update()
@@ -96,10 +87,6 @@ public class UIManager : MonoSingleton<UIManager>
     /// 根据玩家状态显示/隐藏挣扎条
     /// </summary>
     /// <param name="newState"></param>
-    private void HandlePlayerStateChanged(EPlayerState newState)
-    {
-        // UIManager 不再直接管理挣扎条的显示/隐藏，由 StruggleSlider 负责
-    }
 
     protected override void OnDestroy()
     {
@@ -108,10 +95,5 @@ public class UIManager : MonoSingleton<UIManager>
         GameManager.OnGameVictory -= HandleGameVictory;
         GameManager.OnGameDefeat -= HandleGameDefeat;
         GameManager.OnObjectRecovered -= HandleObjectRecovered;
-
-        if (PlayerState.Instance != null)
-        {
-            PlayerState.Instance.OnStateChanged -= HandlePlayerStateChanged;
-        }
     }
 }
