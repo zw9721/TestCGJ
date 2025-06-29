@@ -20,7 +20,7 @@ public class Enemy : LivingObjectBase
         {
             animator.enabled = true; // 恢复动画组件
         }
-        transform.position = myPosition;
+        // transform.position = myPosition;
     }
 
     public override void Interact(PlayerInteraction interactor)

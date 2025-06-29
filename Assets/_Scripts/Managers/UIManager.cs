@@ -45,7 +45,7 @@ public class UIManager : MonoSingleton<UIManager>
         // 更新计时器 UI (如果 GameManager 提供了当前时间)
         if (timerText != null && GameManager.Instance != null)
         {
-            timerText.text = $"Time: {Mathf.CeilToInt(GameManager.Instance.CurrentTime)}s";
+            timerText.text = Mathf.CeilToInt(GameManager.Instance.CurrentTime).ToString() + "s"; // 显示剩余时间
         }
     }
 
