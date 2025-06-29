@@ -1,14 +1,19 @@
 using QFramework;
 using System;
 using UnityEngine;
+using UnityEngine.Playables; // 新增
 using Game; // 引入 Game 命名空间
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    public PlayableDirector introCutsceneDirector; // 引入 Timeline 播放器
+
     // 游戏事件
     public static event Action OnGameVictory;
     public static event Action OnGameDefeat;
     public static event Action<LivingObjectBase> OnObjectRecovered;
+
+    public GameObject playerGameObject; // 主角 GameObject
 
     // 游戏状态变量
     public float gameDuration = 60f; // 游戏总时长 (秒)
@@ -19,8 +24,31 @@ public class GameManager : MonoSingleton<GameManager>
     private int mRecoveredObjectsCount = 0; // 已回收物品数
 
     public bool IsGameOver { get; private set; } = false;
+    private bool isGameStarted = false; // 新增：控制游戏是否已开始
 
     public override void OnSingletonInit()
+    {
+        // 如果有开场动画，则播放动画并在动画结束后开始游戏
+        if (introCutsceneDirector != null)
+        {
+            introCutsceneDirector.Play();
+            introCutsceneDirector.stopped += HandleCutsceneStopped; // 订阅动画播放完成事件
+        }
+        else
+        {
+            // 没有开场动画，直接开始游戏
+            StartGameLogic();
+        }
+    }
+
+    private void HandleCutsceneStopped(PlayableDirector director)
+    {
+        // 动画播放完成后，开始游戏逻辑
+        StartGameLogic();
+        introCutsceneDirector.stopped -= HandleCutsceneStopped; // 取消订阅，避免重复调用
+    }
+
+    private void StartGameLogic()
     {
         mCurrentTime = gameDuration;
         mScore = 0;
@@ -36,11 +64,21 @@ public class GameManager : MonoSingleton<GameManager>
         {
             RegisterObject(obj);
         }
+
+        // 激活主角 GameObject
+        if (playerGameObject != null)
+        {
+            playerGameObject.SetActive(true);
+        }
+        introCutsceneDirector.gameObject.SetActive(false); // 隐藏开场动画对象
+        isGameStarted = true; // 游戏正式开始
+        Debug.Log("游戏逻辑开始：计时器启动，物品已注册，主角已激活。");
+        PixelGameJam.Audio.AudioManager.Instance.PlayMusic("游戏背景音乐"); // 播放游戏开始音效
     }
 
     private void Update()
     {
-        if (IsGameOver) return;
+        if (IsGameOver || !isGameStarted) return; // 只有游戏开始且未结束时才执行计时
 
         mCurrentTime -= Time.deltaTime;
         if (mCurrentTime <= 0)
@@ -48,15 +86,6 @@ public class GameManager : MonoSingleton<GameManager>
             mCurrentTime = 0;
             CheckDefeatCondition();
         }
-
-        // 游戏还剩30秒时，播放紧张音乐
-        // if (mCurrentTime <= 30f && mCurrentTime > 0)
-        // {
-        //     PixelGameJam.Audio.AudioManager.Instance.PlaySound("计时器"); // 播放紧张音乐
-        // }
-
-        // 可以通过事件通知 UIManager 更新计时器
-        // UIManager.Instance.UpdateTimer(mCurrentTime); // 假设 UIManager 存在
     }
 
     /// <summary>
@@ -124,5 +153,9 @@ public class GameManager : MonoSingleton<GameManager>
     {
         base.OnDestroy();
         OnObjectRecovered -= HandleObjectRecovered; // 取消订阅事件
+        if (introCutsceneDirector != null)
+        {
+            introCutsceneDirector.stopped -= HandleCutsceneStopped; // 取消订阅 Timeline 事件
+        }
     }
 }
