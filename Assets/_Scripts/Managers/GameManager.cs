@@ -36,7 +36,6 @@ public class GameManager : MonoSingleton<GameManager>
         {
             RegisterObject(obj);
         }
-        PixelGameJam.Audio.AudioManager.Instance.PlayMusic("游戏背景音乐"); // 播放游戏背景音乐
     }
 
     private void Update()

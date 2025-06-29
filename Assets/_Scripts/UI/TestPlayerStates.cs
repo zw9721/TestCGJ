@@ -24,6 +24,7 @@ public class TestPlayerStates : MonoBehaviour
             // 示例参数：向右击退，力量 10，眩晕 1.5 秒
             mPlayerController.KnockBack(Vector2.right, 10f, 0.2f);
             Debug.Log("触发 KnockBack 测试！");
+            PixelGameJam.Audio.AudioManager.Instance.PlaySound("转椅命中玩家"); // 播放击退音效
         }
     }
 
@@ -37,6 +38,7 @@ public class TestPlayerStates : MonoBehaviour
             // 示例参数：眩晕 2.0 秒
             mPlayerController.Stun(2.0f);
             Debug.Log("触发 Stun 测试！");
+            PixelGameJam.Audio.AudioManager.Instance.PlaySound("订书机攻击命中"); // 播放眩晕音效
         }
     }
 }

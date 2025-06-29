@@ -58,3 +58,13 @@ MonoBehaviour:
     Volume: 0.74
     PitchMin: 1
     PitchMax: 1.41
+  - SoundName: "\u8BA2\u4E66\u673A\u653B\u51FB\u547D\u4E2D"
+    SoundClip: {fileID: 8300000, guid: b91c19a68ff931c4d9db5b5702e28450, type: 3}
+    Volume: 0.74
+    PitchMin: 1
+    PitchMax: 1.41
+  - SoundName: "\u8F6C\u6905\u547D\u4E2D\u73A9\u5BB6"
+    SoundClip: {fileID: 8300000, guid: 6aacff5af10ac6a4dae5b049000da16b, type: 3}
+    Volume: 0.74
+    PitchMin: 1
+    PitchMax: 1.41
