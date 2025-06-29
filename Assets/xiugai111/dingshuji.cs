@@ -67,6 +67,8 @@ public class dingshuji : Enemy
             if (IsPlayerInSight(AttackRadius,AttackAngle,AttackRayCount,Color.green)) 
             {
                 Debug.Log("命中敌人");
+
+                
                 break;
             }
             yield return null;

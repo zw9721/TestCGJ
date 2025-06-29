@@ -11,9 +11,8 @@ public class Enemy : LivingObjectBase
     {
         myPosition = transform.position;
     }
-    public override IEnumerator ResetThis(float time)
+    public override void ResetThis()
     {
-        yield return new WaitForSeconds(time);
         IsBe = false;
         // 恢复动画
         Animator animator = GetComponent<Animator>();

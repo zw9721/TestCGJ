@@ -14,9 +14,9 @@ namespace Game
             interactor.StartStruggle(this); // 调用 PlayerInteraction 的 StartStruggle 方法
         }
 
-        public virtual IEnumerator ResetThis(float time)
+        public virtual void ResetThis()
         {
-            yield return null;
+            
         }
     }
 }
