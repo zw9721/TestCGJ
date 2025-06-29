@@ -222,8 +222,8 @@ public class PlayerInteraction : MonoBehaviour
                 Vector3 targetThrowPosition = mCarriedObject.transform.position + (Vector3)mPlayerController.LastMoveDirection * throwDistance;
                 mCarriedObject.transform.DOMove(targetThrowPosition, throwDuration).SetEase(Ease.OutQuad); // 可以调整 Ease 类型
             }
-
             Debug.Log($"放下 {mCarriedObject.name}");
+            mCarriedObject.ResetThis(2f); // 假设 LivingObjectBase 有 ResetThis 方法来重置状态
             mCarriedObject = null;
             mIsCarrying = false;
             mPlayerState.ChangeState(EPlayerState.Idle);

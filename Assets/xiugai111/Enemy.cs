@@ -11,7 +11,7 @@ public class Enemy : LivingObjectBase
     {
         myPosition = transform.position;
     }
-    public IEnumerator ResetThis(float time)
+    public override IEnumerator ResetThis(float time)
     {
         yield return new WaitForSeconds(time);
         IsBe = false;

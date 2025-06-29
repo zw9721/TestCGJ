@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Game
@@ -11,6 +12,11 @@ namespace Game
             Debug.Log($"{gameObject.name} 被玩家交互了！");
             // 触发玩家进入挣扎状态的逻辑
             interactor.StartStruggle(this); // 调用 PlayerInteraction 的 StartStruggle 方法
+        }
+
+        public virtual IEnumerator ResetThis(float time)
+        {
+            yield return null;
         }
     }
 }
