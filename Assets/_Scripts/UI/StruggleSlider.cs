@@ -13,6 +13,7 @@ public class StruggleSlider : MonoBehaviour
         {
             Debug.LogError("StruggleSlider: Slider component is not assigned!");
         }
+
     }
 
     private void OnEnable()

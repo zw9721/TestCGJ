@@ -11,7 +11,7 @@ public class GameManager : MonoSingleton<GameManager>
     public static event Action<LivingObjectBase> OnObjectRecovered;
 
     // 游戏状态变量
-    public float gameDuration = 120f; // 游戏总时长 (秒)
+    public float gameDuration = 60f; // 游戏总时长 (秒)
     public float CurrentTime => mCurrentTime; // 当前剩余时间
     private float mCurrentTime;
     private int mScore = 0; // 玩家得分
@@ -36,6 +36,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             RegisterObject(obj);
         }
+        PixelGameJam.Audio.AudioManager.Instance.PlayMusic("游戏背景音乐"); // 播放游戏背景音乐
     }
 
     private void Update()
@@ -48,6 +49,12 @@ public class GameManager : MonoSingleton<GameManager>
             mCurrentTime = 0;
             CheckDefeatCondition();
         }
+
+        // 游戏还剩30秒时，播放紧张音乐
+        // if (mCurrentTime <= 30f && mCurrentTime > 0)
+        // {
+        //     PixelGameJam.Audio.AudioManager.Instance.PlaySound("计时器"); // 播放紧张音乐
+        // }
 
         // 可以通过事件通知 UIManager 更新计时器
         // UIManager.Instance.UpdateTimer(mCurrentTime); // 假设 UIManager 存在
@@ -85,6 +92,8 @@ public class GameManager : MonoSingleton<GameManager>
             IsGameOver = true;
             OnGameVictory?.Invoke();
             Debug.Log("游戏胜利！");
+            Time.timeScale = 0; // 停止游戏时间
+            PixelGameJam.Audio.AudioManager.Instance.PlaySound("游戏胜利"); // 播放胜利音效
         }
     }
 
@@ -98,6 +107,8 @@ public class GameManager : MonoSingleton<GameManager>
             IsGameOver = true;
             OnGameDefeat?.Invoke();
             Debug.Log("游戏失败！时间耗尽。");
+            Time.timeScale = 0; // 停止游戏时间
+            PixelGameJam.Audio.AudioManager.Instance.PlaySound("游戏失败"); // 播放失败音效
         }
     }
 

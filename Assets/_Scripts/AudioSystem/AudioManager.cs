@@ -1,7 +1,5 @@
 using UnityEngine;
 using QFramework;
-using System.Collections.Generic; // 引入 Dictionary
-using QFramework.AudioKit; // 引入 IAudioPlayer 所在的命名空间
 
 namespace PixelGameJam.Audio
 {
@@ -10,8 +8,6 @@ namespace PixelGameJam.Audio
         [Header("音频配置")]
         public MusicConfig MusicConfig;
         public SoundEffectConfig SoundEffectConfig;
-
-        private Dictionary<string, IAudioPlayer> mLoopingSounds = new Dictionary<string, IAudioPlayer>(); // 用于存储正在播放的循环音效
 
         // 播放音乐
         public void PlayMusic(string musicName)
@@ -34,7 +30,7 @@ namespace PixelGameJam.Audio
         }
 
         // 播放音效
-        public void PlaySound(string soundName, bool loop = false) // 增加 loop 参数
+        public void PlaySound(string soundName)
         {
             if (SoundEffectConfig == null)
             {
@@ -45,33 +41,13 @@ namespace PixelGameJam.Audio
             SoundClipData clipData = SoundEffectConfig.GetSoundClip(soundName);
             if (clipData != null && clipData.SoundClip != null)
             {
+                // 这里先使用 SoundClipData 中的 PitchMin 作为固定音高示例
                 float pitch = Random.Range(clipData.PitchMin, clipData.PitchMax);
-                IAudioPlayer player = AudioKit.PlaySound(clipData.SoundClip, loop, null, clipData.Volume, pitch); // 传递 loop 参数
-
-                if (loop)
-                {
-                    // 如果是循环音效，则存储起来以便后续停止
-                    if (mLoopingSounds.ContainsKey(soundName))
-                    {
-                        mLoopingSounds[soundName].Stop(); // 停止旧的同名循环音效
-                        mLoopingSounds.Remove(soundName);
-                    }
-                    mLoopingSounds.Add(soundName, player);
-                }
+                AudioKit.PlaySound(clipData.SoundClip, false, null, clipData.Volume, pitch); // 使用 PlaySound 并添加 callBack 参数
             }
             else
             {
                 Debug.LogWarning($"未找到音效片段: {soundName}");
-            }
-        }
-
-        // 停止特定音效
-        public void StopSound(string soundName)
-        {
-            if (mLoopingSounds.TryGetValue(soundName, out IAudioPlayer player))
-            {
-                player.Stop();
-                mLoopingSounds.Remove(soundName);
             }
         }
 
@@ -85,18 +61,6 @@ namespace PixelGameJam.Audio
         public void StopAllSoundEffects()
         {
             AudioKit.StopAllSound(); // 使用 StopAllSound
-            // 停止所有由 AudioManager 追踪的循环音效
-            foreach (var player in mLoopingSounds.Values)
-            {
-                player.Stop();
-            }
-            mLoopingSounds.Clear();
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            StopAllSoundEffects(); // 确保在销毁时停止所有音效
         }
     }
 }

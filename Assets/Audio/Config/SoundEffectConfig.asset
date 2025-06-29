@@ -15,20 +15,20 @@ MonoBehaviour:
   SoundClips:
   - SoundName: "\u73A9\u5BB6\u811A\u6B65\u58F0_loop"
     SoundClip: {fileID: 8300000, guid: 9fa67e9048ddd8a419611a941643eea5, type: 3}
-    Volume: 0.75
-    PitchMin: 1
-    PitchMax: 1.8
+    Volume: 1
+    PitchMin: 1.08
+    PitchMax: 2.15
   - SoundName: "\u6293\u53D6\u52A8\u4F5C"
     SoundClip: {fileID: 8300000, guid: 5abff405cb83eff4c81afc029596a4f5, type: 3}
-    Volume: 0.75
+    Volume: 0.6
     PitchMin: 1
-    PitchMax: 1.8
-  - SoundName: "\u6293\u53D6\u5931\u8D25 "
+    PitchMax: 1.44
+  - SoundName: "\u6293\u53D6\u5931\u8D25"
     SoundClip: {fileID: 8300000, guid: 2f3025b4b77de224dbe36df9f1fd5a09, type: 3}
     Volume: 0.75
     PitchMin: 1
     PitchMax: 1.8
-  - SoundName: "\u6293\u53D6\u6210\u529F "
+  - SoundName: "\u6293\u53D6\u6210\u529F"
     SoundClip: {fileID: 8300000, guid: 5610c506a7986c544bd31a476fe35a39, type: 3}
     Volume: 0.75
     PitchMin: 1
@@ -38,3 +38,23 @@ MonoBehaviour:
     Volume: 0.75
     PitchMin: 1
     PitchMax: 1.8
+  - SoundName: "\u8BA1\u65F6\u5668"
+    SoundClip: {fileID: 8300000, guid: 405c12ce39b97144391346ee02e4baa3, type: 3}
+    Volume: 0.74
+    PitchMin: 1
+    PitchMax: 1
+  - SoundName: "\u7269\u54C1\u6536\u96C6"
+    SoundClip: {fileID: 8300000, guid: 27f7a77ccf839504ba5a3db899c5b5a0, type: 3}
+    Volume: 0.74
+    PitchMin: 1
+    PitchMax: 1.41
+  - SoundName: "\u6E38\u620F\u80DC\u5229"
+    SoundClip: {fileID: 8300000, guid: 518998fff07bf3343918cdab01d83dcd, type: 3}
+    Volume: 0.74
+    PitchMin: 1
+    PitchMax: 1.41
+  - SoundName: "\u6E38\u620F\u5931\u8D25"
+    SoundClip: {fileID: 8300000, guid: 533416ab76948a545ab793b0facfdd62, type: 3}
+    Volume: 0.74
+    PitchMin: 1
+    PitchMax: 1.41

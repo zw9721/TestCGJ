@@ -18,6 +18,7 @@ public class CollectBox : MonoBehaviour
 
             // 销毁被回收的物品
             Destroy(other.gameObject);
+            PixelGameJam.Audio.AudioManager.Instance.PlaySound("物品收集"); // 播放物品回收音效
         }
     }
 }

@@ -61,6 +61,7 @@ public class PlayerInteraction : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             TryInteract();
+            PixelGameJam.Audio.AudioManager.Instance.PlaySound("抓取动作"); // 播放交互音效
         }
 
         // 处理挣扎逻辑 (如果处于挣扎状态)
@@ -167,7 +168,7 @@ public class PlayerInteraction : MonoBehaviour
         mStruggleProgress -= struggleDecayRate * mCarriedObject.struggleDifficulty * Time.deltaTime;
         OnStruggleProgressUpdated?.Invoke(mStruggleProgress); // 更新挣扎进度
 
-        
+
 
         // 进度条持续下降，下降速度受物体难度影响
         mStruggleProgress -= struggleDecayRate * mCarriedObject.struggleDifficulty * Time.deltaTime;
@@ -181,6 +182,7 @@ public class PlayerInteraction : MonoBehaviour
             // 挣扎成功
             Debug.Log("挣扎成功！");
             mIsCarrying = true;
+            PixelGameJam.Audio.AudioManager.Instance.PlaySound("抓取成功"); // 播放挣扎成功音效
 
             mPlayerState.ChangeState(EPlayerState.Carrying_Idle);
             mStruggleProgress = 0f; // 重置进度
@@ -190,6 +192,8 @@ public class PlayerInteraction : MonoBehaviour
         {
             // 挣扎失败
             Debug.Log("挣扎失败！");
+            PixelGameJam.Audio.AudioManager.Instance.PlaySound("抓取失败"); // 播放挣扎成功音效
+
             mPlayerState.ChangeState(EPlayerState.Idle); // 挣扎失败直接切换到 Idle 状态
             mIsCarrying = false;
             if (mCarriedObject != null)
@@ -207,7 +211,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void DropCarriedObject()
     {
-        print("放下物品"+ mCarriedObject?.name);
+        print("放下物品" + mCarriedObject?.name);
         if (mCarriedObject != null)
         {
             mCarriedObject.transform.SetParent(mOriginalCarriedObjectParent); // 解除父级关系
