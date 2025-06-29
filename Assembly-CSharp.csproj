@@ -68,6 +68,7 @@
     <Compile Include="Assets\_Scripts\Player\PlayerAnimator.cs" />
     <Compile Include="Assets\_Scripts\Interactables\CollectBox.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\SoundEffectConfig.cs" />
+    <Compile Include="Assets\xiugai111\Enemy.cs" />
     <Compile Include="Assets\_Scripts\Utility\SpriteDepthSorter.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerAudio.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerInteraction.cs" />
@@ -75,9 +76,12 @@
     <Compile Include="Assets\_Scripts\UI\StruggleSlider.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\AudioManager.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\MusicConfig.cs" />
+    <Compile Include="Assets\xiugai111\dingshuji.cs" />
     <Compile Include="Assets\_Scripts\Managers\UIManager.cs" />
+    <Compile Include="Assets\xiugai111\zhuanyi.cs" />
     <Compile Include="Assets\_Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\MusicClipData.cs" />
+    <Compile Include="Assets\xiugai111\shubiao.cs" />
     <Compile Include="Assets\_Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\_Scripts\Interactables\LivingObjectBase.cs" />
     <Compile Include="Assets\_Scripts\UI\TestPlayerStates.cs" />
@@ -932,6 +936,10 @@
       <HintPath>Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.AI.Navigation">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Burst.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1006,6 +1014,10 @@
     </Reference>
     <Reference Include="Unity.2D.Aseprite.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Aseprite.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Editor">
@@ -1104,6 +1116,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.2D.Psdimporter.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.AI.Navigation.Updater">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.VisualScripting.State.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1126,6 +1142,10 @@
     </Reference>
     <Reference Include="Unity.Searcher.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.AI.Navigation.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
@@ -1161,8 +1181,10 @@
     <ProjectReference Include="UIKit.csproj" />
     <ProjectReference Include="ResKit.Editor.csproj" />
     <ProjectReference Include="QFramework.csproj" />
+    <ProjectReference Include="NavMeshPlus.csproj" />
     <ProjectReference Include="UIKit.Editor.csproj" />
     <ProjectReference Include="AudioKit.csproj" />
+    <ProjectReference Include="NavMeshPlusEditor.csproj" />
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <ItemGroup>

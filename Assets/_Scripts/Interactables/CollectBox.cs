@@ -8,6 +8,8 @@ public class CollectBox : MonoBehaviour
     {
         // 尝试获取碰撞到的对象的 LivingObjectBase 组件
         LivingObjectBase livingObject = other.GetComponent<LivingObjectBase>();
+        //打印livingObject
+        Debug.Log($"CollectBox: Detected object {other.name} with LivingObjectBase: {livingObject != null}");
 
         // 如果碰撞到的对象是 LivingObjectBase 并且不是玩家自身
         if (livingObject != null)

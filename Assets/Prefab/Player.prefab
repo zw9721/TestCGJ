@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4961044264678896537}
   - component: {fileID: 4515146645261435409}
   - component: {fileID: 1627401420168198600}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 6506741432558100192}
   - component: {fileID: 4089317561048434309}
   - component: {fileID: 7371171106575727910}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: SpaceBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 4562544265499732816}
   - component: {fileID: 6285047641609615678}
   - component: {fileID: 9126516470622475023}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6263250079378380090}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1432869271233851542}
   - component: {fileID: 4429283667334971781}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -408,7 +408,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5396234799815798813}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CarryPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,13 +449,13 @@ GameObject:
   - component: {fileID: 1311264182863054658}
   - component: {fileID: 4527516065373554202}
   - component: {fileID: 829748710734067189}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4817844974179567504
 Transform:
   m_ObjectHideFlags: 0
@@ -715,7 +715,7 @@ GameObject:
   - component: {fileID: 938008131952500018}
   - component: {fileID: 4050647669674007744}
   - component: {fileID: 850905562008377119}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -792,7 +792,7 @@ GameObject:
   - component: {fileID: 7576357976523479024}
   - component: {fileID: 5125790401567586452}
   - component: {fileID: 2479789135628740158}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: StruggleSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

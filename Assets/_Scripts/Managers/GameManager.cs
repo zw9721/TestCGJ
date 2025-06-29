@@ -1,19 +1,37 @@
-using QFramework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables; // 新增
-using Game; // 引入 Game 命名空间
+using UnityEngine.Playables;
+using Game;
 
-public class GameManager : MonoSingleton<GameManager>
+public class GameManager : MonoBehaviour
 {
+    // 手动实现单例模式
+    private static GameManager mInstance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (mInstance == null)
+            {
+                mInstance = FindObjectOfType<GameManager>();
+                if (mInstance == null)
+                {
+                    GameObject obj = new GameObject("GameManager");
+                    mInstance = obj.AddComponent<GameManager>();
+                }
+            }
+            return mInstance;
+        }
+    }
+
     public PlayableDirector introCutsceneDirector; // 引入 Timeline 播放器
+    public GameObject playerGameObject; // 主角 GameObject
 
     // 游戏事件
     public static event Action OnGameVictory;
     public static event Action OnGameDefeat;
     public static event Action<LivingObjectBase> OnObjectRecovered;
-
-    public GameObject playerGameObject; // 主角 GameObject
 
     // 游戏状态变量
     public float gameDuration = 60f; // 游戏总时长 (秒)
@@ -24,9 +42,28 @@ public class GameManager : MonoSingleton<GameManager>
     private int mRecoveredObjectsCount = 0; // 已回收物品数
 
     public bool IsGameOver { get; private set; } = false;
-    private bool isGameStarted = false; // 新增：控制游戏是否已开始
+    private bool isGameStarted = false;
+    private HashSet<LivingObjectBase> registeredObjects = new HashSet<LivingObjectBase>();
 
-    public override void OnSingletonInit()
+    private void Awake()
+    {
+        // 实现健壮的单例模式，兼容手动放置在场景中的情况
+        if (mInstance == null)
+        {
+            mInstance = this;
+            DontDestroyOnLoad(gameObject); // 确保在场景切换时不被销毁
+        }
+        else if (mInstance != this)
+        {
+            Destroy(gameObject); // 如果已存在实例，则销毁自己
+            return;
+        }
+
+        // 初始化逻辑
+        InitializeGame();
+    }
+
+    private void InitializeGame()
     {
         // 如果有开场动画，则播放动画并在动画结束后开始游戏
         if (introCutsceneDirector != null)
@@ -50,9 +87,18 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void StartGameLogic()
     {
+        if (isGameStarted)
+        {
+            Debug.LogWarning("游戏逻辑已开始，无法重复启动。");
+            return;
+        }
+        
+        // 重置游戏状态
         mCurrentTime = gameDuration;
         mScore = 0;
         mRecoveredObjectsCount = 0;
+        mTotalObjectsToRecover = 0;
+        registeredObjects.Clear();
         IsGameOver = false;
 
         // 订阅物品回收事件
@@ -70,15 +116,13 @@ public class GameManager : MonoSingleton<GameManager>
         {
             playerGameObject.SetActive(true);
         }
-        introCutsceneDirector.gameObject.SetActive(false); // 隐藏开场动画对象
-        isGameStarted = true; // 游戏正式开始
+        isGameStarted = true;
         Debug.Log("游戏逻辑开始：计时器启动，物品已注册，主角已激活。");
-        PixelGameJam.Audio.AudioManager.Instance.PlayMusic("游戏背景音乐"); // 播放游戏开始音效
     }
 
     private void Update()
     {
-        if (IsGameOver || !isGameStarted) return; // 只有游戏开始且未结束时才执行计时
+        if (IsGameOver || !isGameStarted) return;
 
         mCurrentTime -= Time.deltaTime;
         if (mCurrentTime <= 0)
@@ -88,31 +132,27 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    /// <summary>
-    /// 注册需要回收的物品
-    /// </summary>
-    /// <param name="obj"></param>
     public void RegisterObject(LivingObjectBase obj)
     {
-        mTotalObjectsToRecover++;
-        Debug.Log($"注册物品: {obj.name}. 当前需要回收总数: {mTotalObjectsToRecover}");
+        if (registeredObjects.Add(obj))
+        {
+            mTotalObjectsToRecover++;
+            Debug.Log($"注册物品: {obj.name}. 当前需要回收总数: {mTotalObjectsToRecover}");
+        }
+        else
+        {
+            Debug.LogWarning($"尝试重复注册物品: {obj.name}");
+        }
     }
 
-    /// <summary>
-    /// 当物品被回收时调用
-    /// </summary>
-    /// <param name="obj"></param>
     private void HandleObjectRecovered(LivingObjectBase obj)
     {
         mRecoveredObjectsCount++;
-        mScore += 100; // 假设回收一个物品加 100 分
+        mScore += 100;
         Debug.Log($"物品 {obj.name} 已回收. 已回收: {mRecoveredObjectsCount}/{mTotalObjectsToRecover}. 得分: {mScore}");
         CheckWinCondition();
     }
 
-    /// <summary>
-    /// 检查胜利条件
-    /// </summary>
     private void CheckWinCondition()
     {
         if (mRecoveredObjectsCount >= mTotalObjectsToRecover && mTotalObjectsToRecover > 0)
@@ -120,14 +160,11 @@ public class GameManager : MonoSingleton<GameManager>
             IsGameOver = true;
             OnGameVictory?.Invoke();
             Debug.Log("游戏胜利！");
-            Time.timeScale = 0; // 停止游戏时间
-            PixelGameJam.Audio.AudioManager.Instance.PlaySound("游戏胜利"); // 播放胜利音效
+            Time.timeScale = 0;
+            // PixelGameJam.Audio.AudioManager.Instance.PlaySound("游戏胜利");
         }
     }
 
-    /// <summary>
-    /// 检查失败条件 (时间耗尽)
-    /// </summary>
     private void CheckDefeatCondition()
     {
         if (mCurrentTime <= 0 && !IsGameOver)
@@ -135,27 +172,22 @@ public class GameManager : MonoSingleton<GameManager>
             IsGameOver = true;
             OnGameDefeat?.Invoke();
             Debug.Log("游戏失败！时间耗尽。");
-            Time.timeScale = 0; // 停止游戏时间
-            PixelGameJam.Audio.AudioManager.Instance.PlaySound("游戏失败"); // 播放失败音效
+            Time.timeScale = 0;
+            // PixelGameJam.Audio.AudioManager.Instance.PlaySound("游戏失败");
         }
     }
 
-    /// <summary>
-    /// 触发物品回收事件
-    /// </summary>
-    /// <param name="obj">被回收的物品</param>
     public void TriggerObjectRecovered(LivingObjectBase obj)
     {
         OnObjectRecovered?.Invoke(obj);
     }
 
-    protected override void OnDestroy()
+    private void OnDestroy()
     {
-        base.OnDestroy();
-        OnObjectRecovered -= HandleObjectRecovered; // 取消订阅事件
+        OnObjectRecovered -= HandleObjectRecovered;
         if (introCutsceneDirector != null)
         {
-            introCutsceneDirector.stopped -= HandleCutsceneStopped; // 取消订阅 Timeline 事件
+            introCutsceneDirector.stopped -= HandleCutsceneStopped;
         }
     }
 }
