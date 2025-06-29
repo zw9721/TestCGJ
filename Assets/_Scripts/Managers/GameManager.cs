@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public static event Action OnGameVictory;
     public static event Action OnGameDefeat;
     public static event Action<LivingObjectBase> OnObjectRecovered;
+    public static event Action OnGameStarted;
 
     // 游戏状态变量
     public float gameDuration = 60f; // 游戏总时长 (秒)
@@ -82,6 +83,7 @@ public class GameManager : MonoBehaviour
     {
         // 动画播放完成后，开始游戏逻辑
         StartGameLogic();
+        introCutsceneDirector.gameObject.SetActive(false); // 隐藏动画播放器
         introCutsceneDirector.stopped -= HandleCutsceneStopped; // 取消订阅，避免重复调用
     }
 
@@ -117,6 +119,7 @@ public class GameManager : MonoBehaviour
             playerGameObject.SetActive(true);
         }
         isGameStarted = true;
+        OnGameStarted?.Invoke();
         Debug.Log("游戏逻辑开始：计时器启动，物品已注册，主角已激活。");
     }
 

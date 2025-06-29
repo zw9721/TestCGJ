@@ -7,6 +7,7 @@ using TMPro; // 如果使用 TextMeshPro，需要引入此命名空间
 public class UIManager : MonoSingleton<UIManager>
 {
     // UI 元素引用
+    public GameObject timerContainer; // 计时器父物体
     public TextMeshProUGUI timerText; // 计时器文本
     public GameObject victoryScreen; // 胜利屏幕
     public GameObject defeatScreen; // 失败屏幕
@@ -22,11 +23,16 @@ public class UIManager : MonoSingleton<UIManager>
         {
             defeatScreen.SetActive(false);
         }
+        if (timerContainer != null)
+        {
+            timerContainer.SetActive(false);
+        }
     }
 
     private void OnEnable()
     {
         // 订阅 GameManager 事件
+        GameManager.OnGameStarted += HandleGameStarted;
         GameManager.OnGameVictory += HandleGameVictory;
         GameManager.OnGameDefeat += HandleGameDefeat;
         GameManager.OnObjectRecovered += HandleObjectRecovered;
@@ -35,6 +41,7 @@ public class UIManager : MonoSingleton<UIManager>
     private void OnDisable()
     {
         // 取消订阅 GameManager 事件
+        GameManager.OnGameStarted -= HandleGameStarted;
         GameManager.OnGameVictory -= HandleGameVictory;
         GameManager.OnGameDefeat -= HandleGameDefeat;
         GameManager.OnObjectRecovered -= HandleObjectRecovered;
@@ -83,6 +90,14 @@ public class UIManager : MonoSingleton<UIManager>
         Debug.Log($"UIManager: 物品 {obj.name} 已回收.");
     }
 
+    private void HandleGameStarted()
+    {
+        if (timerContainer != null)
+        {
+            timerContainer.SetActive(true);
+        }
+    }
+
     /// <summary>
     /// 根据玩家状态显示/隐藏挣扎条
     /// </summary>
@@ -92,6 +107,7 @@ public class UIManager : MonoSingleton<UIManager>
     {
         base.OnDestroy();
         // 在 OnDestroy 中取消订阅，以防 OnDisable 未被调用
+        GameManager.OnGameStarted -= HandleGameStarted;
         GameManager.OnGameVictory -= HandleGameVictory;
         GameManager.OnGameDefeat -= HandleGameDefeat;
         GameManager.OnObjectRecovered -= HandleObjectRecovered;
