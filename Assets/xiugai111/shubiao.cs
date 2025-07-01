@@ -21,20 +21,20 @@ public class shubiao : Enemy
     [SerializeField]private float eyecd = 1f;
     private NavMeshAgent navMeshAgent;
     // Start is called before the first frame update
-    private void OnDrawGizmosSelected()
-    {
+    // private void OnDrawGizmosSelected()
+    // {
         
-        if (MovePositions == null || MovePositions.Count == 0) return;
-        GUIStyle style = new GUIStyle();
-        style.normal.textColor = Color.red;
-        style.fontSize = 14;
-        style.fontStyle = FontStyle.Bold;
-        for (int i = 0; i < MovePositions.Count; i++)
-        {
-            // ÔÚµãÉÏ·½»æÖÆË÷ÒýºÍ×ø±ê
-            Handles.Label(MovePositions[i] + Vector3.up * 0.3f, i.ToString(), style);
-        }
-    }
+    //     if (MovePositions == null || MovePositions.Count == 0) return;
+    //     GUIStyle style = new GUIStyle();
+    //     style.normal.textColor = Color.red;
+    //     style.fontSize = 14;
+    //     style.fontStyle = FontStyle.Bold;
+    //     for (int i = 0; i < MovePositions.Count; i++)
+    //     {
+    //         // ï¿½Úµï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    //         Handles.Label(MovePositions[i] + Vector3.up * 0.3f, i.ToString(), style);
+    //     }
+    // }
     void Start()
     {
         if (MovePositions!=null) 
@@ -51,18 +51,23 @@ public class shubiao : Enemy
     // Update is called once per frame
     void Update()
     {
-        if (!IsBe) 
+        if (!IsBe)
         {
-        move();
-        TransformDirction();
-        DetectPlayer();
-        imageFilp();
+            move();
+            TransformDirction();
+            DetectPlayer();
+            imageFilp();
         }
+        else
+        {
+          navMeshAgent.ResetPath(); 
+
+         }
         
     }
     private void imageFilp() 
     {
-        float angle = NormalizeAngle(eye.transform.rotation.z);
+        float angle = NormalizeAngle(eye.transform.eulerAngles.z);
         if (angle > 180f && angle < 360f)
         {
             sprite.flipX = false;
@@ -75,10 +80,10 @@ public class shubiao : Enemy
     
         float NormalizeAngle(float angle)
         {
-            angle = angle % 360;  // ÏÈ×ª»»Îª (-360, 360)
+            angle = angle % 360;  // ï¿½ï¿½×ªï¿½ï¿½Îª (-360, 360)
             if (angle < 0)
             {
-                angle += 360;     // ½«¸º½Ç¶È×ª»»Îª [0, 360)
+                angle += 360;     // ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½×ªï¿½ï¿½Îª [0, 360)
             }
             return angle;
         }
@@ -87,7 +92,7 @@ public class shubiao : Enemy
     private void move() 
     {
         Vector3 direction = (MovePositions[CurrentTarget] - transform.position).normalized;
-        // ÔÈËÙÒÆ¶¯
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
         if (direction != Vector3.zero)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -136,27 +141,27 @@ public class shubiao : Enemy
        
     }
     
-    [Header("ÊÓÒ°²ÎÊý")]
-    private float sightRadius = 3.5f;       // ÊÓÒ°°ë¾¶
-    private float sightAngle = 60f;       // ÊÓÒ°½Ç¶È£¨ÉÈÐÎÕÅ½Ç£©
-    private int rayCount = 10;            // ÉäÏßÊýÁ¿
-    public LayerMask targetMask;         // Ä¿±ê²ã¼¶£¨ÈçPlayer£©
+    [Header("ï¿½ï¿½Ò°ï¿½ï¿½ï¿½ï¿½")]
+    private float sightRadius = 3.5f;       // ï¿½ï¿½Ò°ï¿½ë¾¶
+    private float sightAngle = 60f;       // ï¿½ï¿½Ò°ï¿½Ç¶È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å½Ç£ï¿½
+    private int rayCount = 10;            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public LayerMask targetMask;         // Ä¿ï¿½ï¿½ã¼¶ï¿½ï¿½ï¿½ï¿½Playerï¿½ï¿½
     public LayerMask obstacleMask;
     private bool IsPlayerInSight()
     {
         bool playerDetected = false;
         float halfAngle = sightAngle / 2f;
-        float angleStep = sightAngle / (rayCount - 1); // Ã¿ÌõÉäÏßµÄ½Ç¶È¼ä¸ô
+        float angleStep = sightAngle / (rayCount - 1); // Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ßµÄ½Ç¶È¼ï¿½ï¿½
 
         for (int i = 0; i < rayCount; i++)
         {
-            // ¼ÆËãµ±Ç°ÉäÏßµÄ½Ç¶È£¨´Ó×ó²àµ½ÓÒ²à£©
+            // ï¿½ï¿½ï¿½ãµ±Ç°ï¿½ï¿½ï¿½ßµÄ½Ç¶È£ï¿½ï¿½ï¿½ï¿½ï¿½àµ½ï¿½Ò²à£©
             float currentAngle = -halfAngle + angleStep * i;
 
-            // ½«½Ç¶È×ª»»Îª·½ÏòÏòÁ¿£¨2D£©
+            // ï¿½ï¿½ï¿½Ç¶ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2Dï¿½ï¿½
             Vector2 rayDirection = Quaternion.Euler(0, 0, currentAngle) * eye.transform.right;
 
-            // ·¢ÉäÉäÏß
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             RaycastHit2D hit = Physics2D.Raycast(
                 eye.transform.position,
                 rayDirection,
@@ -164,10 +169,10 @@ public class shubiao : Enemy
                 targetMask
             );
 
-            // »æÖÆÉäÏß£¨SceneÊÓÍ¼¿ÉÊÓ»¯£©
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß£ï¿½Sceneï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ó»ï¿½ï¿½ï¿½
             Debug.DrawRay(eye.transform.position, rayDirection * sightRadius, Color.red);
                 
-            // ¼ì²âÊÇ·ñÃüÖÐÍæ¼Ò
+            // ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (hit.collider != null && hit.collider.gameObject.CompareTag("Player"))
             {
                 playerDetected = true;

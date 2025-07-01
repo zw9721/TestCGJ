@@ -58,7 +58,7 @@ public class PlayerInteraction : MonoBehaviour
     private void Update()
     {
         // 检查交互输入 (例如，按下 E 键)
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             TryInteract();
             PixelGameJam.Audio.AudioManager.Instance.PlaySound("抓取动作"); // 播放交互音效
@@ -158,7 +158,7 @@ public class PlayerInteraction : MonoBehaviour
     private void HandleStruggle()
     {
         // 挣扎进度条逻辑
-        if (Input.GetKeyDown(KeyCode.E)) // 每次点击交互键增加进度
+        if (Input.GetKeyDown(KeyCode.Space)) // 每次点击交互键增加进度
         {
             mStruggleProgress += struggleIncreasePerClick;
             OnStruggleProgressUpdated?.Invoke(mStruggleProgress); // 更新挣扎进度

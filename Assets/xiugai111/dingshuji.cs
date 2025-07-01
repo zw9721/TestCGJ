@@ -47,14 +47,15 @@ public class dingshuji : Enemy
         }
         else 
         {
-            if(InAttackTime>0)
-             {
-                InAttackTime-=Time.deltaTime;
+            navMeshAgent.ResetPath();
+            if (InAttackTime > 0)
+            {
+                InAttackTime -= Time.deltaTime;
             }
         }
     }
 
-    
+
     IEnumerator Attack(Vector3 targetPosition,float distance) 
     {
         animator.SetBool("Attack",true);
@@ -69,8 +70,16 @@ public class dingshuji : Enemy
             if (IsPlayerInSight(AttackRadius,AttackAngle,AttackRayCount,Color.green)) 
             {
                 Debug.Log("命中敌人");
-
-
+                PlayerController PlayerController = target.GetComponent<PlayerController>();
+                if (PlayerController != null)
+                {
+                    PlayerController.Stun(1.5f); // 触发击退
+                    // PlayerController.Stun(1.5f); // 触发眩晕
+                }
+                else
+                {
+                    Debug.LogWarning("PlayerController component not found on target.");
+                }
                 break;
             }
             yield return null;

@@ -77,6 +77,7 @@
     <Compile Include="Assets\_Scripts\AudioSystem\AudioManager.cs" />
     <Compile Include="Assets\_Scripts\AudioSystem\MusicConfig.cs" />
     <Compile Include="Assets\xiugai111\dingshuji.cs" />
+    <Compile Include="Assets\StartScene\LoadScene.cs" />
     <Compile Include="Assets\_Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\xiugai111\zhuanyi.cs" />
     <Compile Include="Assets\_Scripts\Managers\GameManager.cs" />

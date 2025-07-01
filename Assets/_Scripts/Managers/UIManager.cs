@@ -1,5 +1,6 @@
 using QFramework;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI; // 引入 UI 命名空间
 using Game; // 引入 Game 命名空间
 using TMPro; // 如果使用 TextMeshPro，需要引入此命名空间
@@ -111,5 +112,16 @@ public class UIManager : MonoSingleton<UIManager>
         GameManager.OnGameVictory -= HandleGameVictory;
         GameManager.OnGameDefeat -= HandleGameDefeat;
         GameManager.OnObjectRecovered -= HandleObjectRecovered;
+    }
+
+    /// <summary>
+    /// 返回主菜单场景
+    /// </summary>
+    public void ReturnToMainMenu()
+    {
+        // 恢复时间流速
+        Time.timeScale = 1f;
+        // 加载主菜单场景
+        SceneManager.LoadScene("StartScene");
     }
 }

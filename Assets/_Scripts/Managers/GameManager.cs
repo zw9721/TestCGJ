@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         if (mInstance == null)
         {
             mInstance = this;
-            DontDestroyOnLoad(gameObject); // 确保在场景切换时不被销毁
+            // DontDestroyOnLoad(gameObject); // 确保在场景切换时不被销毁
         }
         else if (mInstance != this)
         {
@@ -120,6 +120,7 @@ public class GameManager : MonoBehaviour
         }
         isGameStarted = true;
         OnGameStarted?.Invoke();
+        PixelGameJam.Audio.AudioManager.Instance.PlayMusic("游戏背景音乐"); // 播放游戏开始音效
         Debug.Log("游戏逻辑开始：计时器启动，物品已注册，主角已激活。");
     }
 
@@ -163,8 +164,8 @@ public class GameManager : MonoBehaviour
             IsGameOver = true;
             OnGameVictory?.Invoke();
             Debug.Log("游戏胜利！");
-            Time.timeScale = 0;
-            // PixelGameJam.Audio.AudioManager.Instance.PlaySound("游戏胜利");
+            // Time.timeScale = 0;
+            PixelGameJam.Audio.AudioManager.Instance.PlaySound("游戏胜利");
         }
     }
 
@@ -175,8 +176,8 @@ public class GameManager : MonoBehaviour
             IsGameOver = true;
             OnGameDefeat?.Invoke();
             Debug.Log("游戏失败！时间耗尽。");
-            Time.timeScale = 0;
-            // PixelGameJam.Audio.AudioManager.Instance.PlaySound("游戏失败");
+            // Time.timeScale = 0;
+            PixelGameJam.Audio.AudioManager.Instance.PlaySound("游戏失败");
         }
     }
 
