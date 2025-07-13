@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53676d04f29cfb44c924958e97d71068, type: 3}
+  m_Name: SoundEffectConfig
+  m_EditorClassIdentifier: 
+  SoundClips:
+  - SoundName: "\u73A9\u5BB6\u811A\u6B65\u58F0_loop"
+    SoundClip: {fileID: 8300000, guid: 9fa67e9048ddd8a419611a941643eea5, type: 3}
+    Volume: 1
+    PitchMin: 1.08
+    PitchMax: 2.15
+  - SoundName: "\u6293\u53D6\u52A8\u4F5C"
+    SoundClip: {fileID: 8300000, guid: 5abff405cb83eff4c81afc029596a4f5, type: 3}
+    Volume: 0.6
+    PitchMin: 1
+    PitchMax: 1.44
+  - SoundName: "\u6293\u53D6\u5931\u8D25"
+    SoundClip: {fileID: 8300000, guid: a04037a9e8b4b2d45b841668cf0c73d2, type: 3}
+    Volume: 0.75
+    PitchMin: 1
+    PitchMax: 1.8
+  - SoundName: "\u6293\u53D6\u6210\u529F"
+    SoundClip: {fileID: 8300000, guid: 94ee4e03f0129054b83f1be740f0629e, type: 3}
+    Volume: 0.75
+    PitchMin: 1
+    PitchMax: 1.8
+  - SoundName: "\u7126\u6025\u6293\u53D6\u8FC7\u7A0B_loop "
+    SoundClip: {fileID: 8300000, guid: 00a7d1b45e35a2a4691581afca838727, type: 3}
+    Volume: 0.75
+    PitchMin: 1
+    PitchMax: 1.8
+  - SoundName: "\u8BA1\u65F6\u5668"
+    SoundClip: {fileID: 8300000, guid: 405c12ce39b97144391346ee02e4baa3, type: 3}
+    Volume: 0.74
+    PitchMin: 1
+    PitchMax: 1
+  - SoundName: "\u7269\u54C1\u6536\u96C6"
+    SoundClip: {fileID: 8300000, guid: a55b42a02b9cfd749aefb3ffd0b05562, type: 3}
+    Volume: 0.74
+    PitchMin: 1
+    PitchMax: 1.41
+  - SoundName: "\u6E38\u620F\u80DC\u5229"
+    SoundClip: {fileID: 8300000, guid: c0a36d1f82241014d848d206da875c82, type: 3}
+    Volume: 0.74
+    PitchMin: 1
+    PitchMax: 1.41
+  - SoundName: "\u6E38\u620F\u5931\u8D25"
+    SoundClip: {fileID: 8300000, guid: 873e4958103657d45b0f145dbfcc3078, type: 3}
+    Volume: 0.74
+    PitchMin: 1
+    PitchMax: 1.41
+  - SoundName: "\u8BA2\u4E66\u673A\u653B\u51FB\u547D\u4E2D"
+    SoundClip: {fileID: 8300000, guid: 1ac4d729000eabc43b5d729ca46401d5, type: 3}
+    Volume: 0.74
+    PitchMin: 1
+    PitchMax: 1.41
+  - SoundName: "\u8F6C\u6905\u547D\u4E2D\u73A9\u5BB6"
+    SoundClip: {fileID: 8300000, guid: 6aacff5af10ac6a4dae5b049000da16b, type: 3}
+    Volume: 0.74
+    PitchMin: 1
+    PitchMax: 1.41
